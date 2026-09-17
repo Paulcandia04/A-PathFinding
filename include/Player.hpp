@@ -13,7 +13,7 @@ enum class Direction { Down = 0, Up = 1, Left = 2, Right = 3 };
 
 class Player {
 private:
-    // [direccion][frame] -> textura opcional de caminata
+    
     std::array<std::array<std::optional<sf::Texture>, 2>, 4> m_walkTex;
     sf::Texture m_fallbackTexture;
     bool m_hasFallback = false;
@@ -154,7 +154,7 @@ public:
         sf::FloatRect b = m_sprite->getLocalBounds();
         m_sprite->setOrigin(sf::Vector2f(b.size.x / 2.0f, b.size.y / 2.0f));
 
-        // Ajuste de escala automático para igualar el tamaño en pantalla de Player2 al Player base
+    
         sf::Vector2f targetSizeRatio(1.0f, 1.0f);
         if (m_hasFallback && b.size.x > 0.f && b.size.y > 0.f) {
             sf::Vector2u baseSize = m_fallbackTexture.getSize();

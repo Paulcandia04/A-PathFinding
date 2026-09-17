@@ -6,7 +6,7 @@ enum class AppState { MENU, PLAYING };
 class GameState {
 private:
     AppState m_state;
-    bool m_editMode; // modo edición de calles caminables
+    bool m_editMode; 
 
 public:
     GameState() : m_state(AppState::MENU), m_editMode(false) {}

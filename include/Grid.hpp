@@ -12,19 +12,19 @@ class Grid {
 private:
     int m_cols;
     int m_rows;
-    int m_cellSize; // tamaño de celda en píxeles ORIGINALES de Ciudad.png
-    std::vector<std::vector<bool>> m_walkable; // [row][col]
+    int m_cellSize; 
+    std::vector<std::vector<bool>> m_walkable; 
 
     bool ClassifyPixelAsPath(const sf::Color& c) const {
-        if (c.a < 200) return false; // fuera del mapa (transparente)
+        if (c.a < 200) return false; 
 
-        // Excluir verde (pasto/árboles)
+        
         if (c.g > c.r + 10 && c.g > c.b + 25) return false;
 
-        // Excluir azul (agua/piscinas)
+        
         if (c.b > c.r + 15 && c.b > c.g + 5) return false;
 
-        // Heurística de "camino de tierra" (tonos marrones/tostados)
+        
         bool road = (c.r > 140 && c.r < 240) &&
                     (c.g > 100 && c.g < 210) &&
                     (c.b > 60  && c.b < 180) &&
@@ -101,7 +101,7 @@ public:
                              row * m_cellSize + m_cellSize / 2.0f);
     }
 
-    // Si el click cae en un edificio, busca la celda caminable más cercana
+    
     sf::Vector2i FindNearestWalkable(int col, int row, int maxRadius = 15) const {
         if (IsWalkable(col, row)) return sf::Vector2i(col, row);
         for (int radius = 1; radius <= maxRadius; radius++) {
