@@ -1,0 +1,111 @@
+@startuml diagrama
+
+class Game
+class Word
+class GameState
+class InputHandler
+class Renderer
+class WordSpawner
+
+Game o-- GameState 
+Game o-- InputHandler
+Game o-- Renderer                       
+Game o-- WordSpawner
+Game o-- Word
+
+class GameState {
+    - score: int
+    - lives: int
+    - gameClock: sf::Clock
+    - gameOver: bool
+    - currentInput: std::string
+    --
+    + GameState()
+    + AddScore(points: int): void
+    + LoseLife(): void
+    + ResetGame(): void
+    + IsGameOver(): bool
+    + GetScore(): int
+    + GetLives(): int
+    + GetElapsedTime(): int
+    + GetCurrentInput(): std::string
+    + SetCurrentInput(input: const std::string&): void
+    + ClearCurrentInput(): void
+}
+
+class InputHandler 
+{
+    - currentInput: std::string
+    --
+    + InputHandler()
+    + HandleTextInput(character: char, words: std::vector<Word>&): void
+    + HandleBackspace(): void
+    + ProcessWordMatch(words: std::vector<Word>&, gameState: GameState&): bool
+    + ClearInput(): void
+    + GetCurrentInput(): std::string
+    + HandleGameInput(event: const sf::Event&, gameState: GameState&, words: std::vector<Word>&): bool
+    - IsValidInputCharacter(character: char): bool
+}
+
+class Renderer {
+    - window: sf::RenderWindow*
+    - font: sf::Font
+    - backgroundTexture: sf::Texture
+    - zombieTexture: sf::Texture
+    - playerTexture: sf::Texture
+    - backgroundSprite: sf::Sprite
+    - zombieSprite: sf::Sprite
+    - playerSprite: sf::Sprite
+    --
+    + renderer(win: sf::RenderWindow*)
+    + LoadAssets(): bool
+    + Clear(): void
+    + Display(): void
+    + DrawBackground(): void
+    + DrawWords(words: const std::vector<Word>&): void
+    + DrawUI(gameState: const GameState&): void
+    + DrawPlayer(): void
+    + DrawGameOver(gameState: const GameState&): void
+    + RenderFullFrame(words: const std::vector<Word>&, gameState: const GameState&): void
+}
+
+class Word {
+    + text: std::string
+    + originalText: std::string
+    + x: float
+    + y: float
+    + progress: int
+    + isActive: bool
+    + color: sf::Color
+    + speed: float
+    --
+    + Word(word: const std::string&, startX: float, startY: float, wordSpeed: float)
+    + UpdatePosition(deltaTime: float): void
+    + IsOutOfBounds(screenHeight: float): bool
+    + SetActive(active: bool): void
+    + IncrementProgress(): void
+    + ResetProgress(): void
+    + IsCompleted(): bool
+}
+
+class WordSpawner {
+    - wordList: std::vector<std::string>
+    - spawnClock: sf::Clock
+    - spawnInterval: float
+    - WordSpeed: float
+    - rd: std::random_device
+    - gen: std::mt19937
+    - wordDist: std::uniform_int_distribution<>
+    - xPosDist: std::uniform_real_distribution<>
+    --
+    + WordSpawner()
+    + AddWord(word: const std::string&): void
+    + ShouldSpawnWord(): bool
+    + GenerateWord(): Word
+    + UpdateDifficulty(): void
+    + ResetSpawner(): void
+    + GetSpawnInterval(): float
+    + GetWordSpeed(): float
+}
+
+@enduml
